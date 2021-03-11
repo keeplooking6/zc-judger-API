@@ -84,6 +84,69 @@ paths:
           description: "OK"
         default:
           description: "更新失败"
+    get:
+      tags:
+      - "user"
+      summary: "查找用户"
+      description: "返回要查找的用户"
+      operationId: "getUserByName"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "userName"
+        in: "query"
+        description: "返回的用户名"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        description: "返回的密码"
+        required: true
+        type: "string"
+      - name: "role"
+        in: "query"
+        description: "返回当前用户的角色"
+        required: true
+      responses:
+        "200":
+          description: "查找成功"
+          schema:
+            type: "array"
+            items: 
+              properties:
+                userName:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: string
+        "400":
+          description: "传参不合法"
+        "401":
+          description: "密码不正确"
+        "404":
+          description: "没有找到该用户"
+    delete:
+      tags:
+      - "user"
+      summary: "注销用户"
+      description: "注销用户"
+      operationId: "deleteUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "query"
+        description: "要注销的用户id"
+        required: true
+        type: "integer"
+      responses:
+        "204":
+          description: "注销成功"
+        "400":
+          description: "注销失败"
 definitions:
   User:
     type: "object"

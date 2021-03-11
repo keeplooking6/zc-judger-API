@@ -171,6 +171,8 @@ definitions:
       credit:
         type: "integer"
         format: "int32"
+      role:
+        type: "string"
   Submit:
     type: "object"
     properties:

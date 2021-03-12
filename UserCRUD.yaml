@@ -31,9 +31,7 @@ paths:
         "200":
           description: "OK"
         "400":
-          description: "用户名已存在"
-        default:
-          description: "INTERNAL SERVER ERROR"
+          description: "用户请求信息有误"
     put:
       tags:
       - "user"
@@ -44,46 +42,15 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "userId"
-        in: "query"
-        description: "用户唯一标识"
-        required: true
-        type: "integer"
-      - name: "userName"
-        in: "query"
-        description: "用户名，不能使用已存在的"
-        required: false
-        type: "string"
-      - name: "password"
-        in: "query"
-        description: "用户密码，加密传输，加密存储"
-        required: false
-        type: "string"
-      - name: "email"
-        in: "query"
-        description: "用户邮箱，不能使用已经绑定过的"
-        required: false
-        type: "string"
-      - name: "position"
-        in: "query"
-        description: "用户地理位置"
-        required: false
-        type: "string"
-      - name: "college"
-        in: "query"
-        description: "用户所在大学"
-        required: false
-        type: "string"
-      - name: "group"
-        in: "query"
-        description: "用户组织，班级"
-        required: false
-        type: "string"
+      - in: body
+        name: user
+        schema:
+          $ref: '#/definitions/User'
       responses:
         "200":
           description: "OK"
-        default:
-          description: "更新失败"
+        "400":
+          description: "用户请求信息有误"
     get:
       tags:
       - "user"

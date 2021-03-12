@@ -11,6 +11,7 @@ schemes:
 consumes:
   - application/x-www-from-urlencoded
   - mutipart/form-data
+  - application/json
 paths:
   /user:
     post:
@@ -26,12 +27,16 @@ paths:
        -  in: body
           name: user
           schema:
-            $ref: '#/definitions/User'
+            $ref: "#/definitions/User"
       responses:
         "200":
           description: "OK"
         "400":
           description: "用户名已存在"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/FindUserNameResponse"
         default:
           description: "INTERNAL SERVER ERROR"
     put:
@@ -88,7 +93,7 @@ paths:
       tags:
       - "user"
       summary: "查找用户"
-      description: "返回要查找的用户"
+      description: "查找用户"
       operationId: "getUserByName"
       produces:
       - "application/xml"
@@ -96,31 +101,21 @@ paths:
       parameters:
       - name: "userName"
         in: "query"
-        description: "返回的用户名"
+        description: "用户名"
         required: true
         type: "string"
       - name: "password"
         in: "query"
-        description: "返回的密码"
+        description: "密码"
         required: true
         type: "string"
-      - name: "role"
-        in: "query"
-        description: "返回当前用户的角色"
-        required: true
       responses:
         "200":
           description: "查找成功"
           schema:
             type: "array"
-            items: 
-              properties:
-                userName:
-                  type: string
-                password:
-                  type: string
-                role:
-                  type: string
+            items:
+              $ref: "#/definitions/LoginResponse"
         "400":
           description: "传参不合法"
         "401":
@@ -172,7 +167,7 @@ definitions:
         type: "integer"
         format: "int32"
       role:
-        type: "string"
+        type: "integer"
   Submit:
     type: "object"
     properties:
@@ -205,4 +200,35 @@ definitions:
         type: "string"
       submitGrade:
         type: "string"
-      
+  FindUserName: 
+    type: "object"
+    properties: 
+      userName:
+        type: "string"
+  Role:
+    type: "object"
+    properties:
+      roleId: 
+        type: "integer"
+  LoginResponse: 
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message: 
+        type: "string"
+      data:
+        type: "object"
+        $ref: "#/definitions/User"
+  FindUserNameResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message:
+        type: "string"
+      data:
+        type: "object"
+        $ref: "#/definitions/FindUserName"
+
+        

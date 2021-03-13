@@ -100,19 +100,19 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/NoDataResponse"
+              $ref: "#/definitions/ErrorResponseOne"
         "401":
           description: "密码不正确"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/NoDataResponse"
+              $ref: "#/definitions/ErrorResponseTwo"
         "404":
           description: "没有找到该用户"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/NoDataResponse"
+              $ref: "#/definitions/ErrorResponseThree"
     delete:
       tags:
       - "user"
@@ -221,15 +221,6 @@ definitions:
         type: "string"
       data:
         $ref: "#/definitions/User"
-  FindUserNameResponse:
-    type: "object"
-    properties:
-      code:
-        type: "integer"
-      message:
-        type: "string"
-      data:
-        $ref: "#/definitions/FindUserName"
   UserResponse:
     type: "object"
     properties:
@@ -248,3 +239,47 @@ definitions:
         type: "string"
       data:
         type: "object"
+  FindUserNameResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message:
+        type: "string"
+      data:
+        type: "object"
+        $ref: "#/definitions/FindUserName"
+  ErrorResponseOne:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message: 
+        type: "string"
+        $ref: "#/components/responses/InvalidParameters"
+  ErrorResponseTwo:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message: 
+        type: "string"
+        $ref: "#/components/responses/PasswordError"
+  ErrorResponseThree:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message: 
+        type: "string"
+        $ref: "#/components/responses/NotFound"
+components:
+  responses:
+    InvalidParameters:
+      description: "invalid parameters"
+    PasswordError:
+      description: "password error"
+    NotFound:
+      description: "not found"
+    Success:
+      description: "operate successfully"

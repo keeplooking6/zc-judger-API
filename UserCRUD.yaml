@@ -137,6 +137,7 @@ definitions:
         format: "int32"
       role:
         type: "integer"
+        $ref: "#/definitions/Role"
   Submit:
     type: "object"
     properties:

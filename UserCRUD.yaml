@@ -24,21 +24,23 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-       -  in: body
-          name: user
+       -  in: "body"
+          name: "user"
           schema:
             $ref: "#/definitions/User"
       responses:
         "200":
           description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/UserResponse"
         "400":
           description: "用户名已存在"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/FindUserNameResponse"
-        default:
-          description: "INTERNAL SERVER ERROR"
+              $ref: "#/definitions/NoDataResponse"
     put:
       tags:
       - "user"
@@ -49,15 +51,23 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - in: body
-        name: user
+      - in: "body"
+        name: "user"
         schema:
           $ref: '#/definitions/User'
       responses:
         "200":
           description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/UserResponse"
         "400":
           description: "用户请求信息有误"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/NoDataResponse"
     get:
       tags:
       - "user"
@@ -87,10 +97,22 @@ paths:
               $ref: "#/definitions/LoginResponse"
         "400":
           description: "传参不合法"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/NoDataResponse"
         "401":
           description: "密码不正确"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/NoDataResponse"
         "404":
           description: "没有找到该用户"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/NoDataResponse"
     delete:
       tags:
       - "user"
@@ -109,8 +131,17 @@ paths:
       responses:
         "204":
           description: "注销成功"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/NoDataResponse"          
         "400":
           description: "注销失败"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/NoDataResponse"
+    
 definitions:
   User:
     type: "object"
@@ -132,11 +163,12 @@ definitions:
         type: "string"
       loginTime:
         type: "string"
+        format: "date-time"
       credit:
         type: "integer"
         format: "int32"
       role:
-        type: "integer"
+        $ref: "#/definitions/Role"
   Submit:
     type: "object"
     properties:
@@ -187,7 +219,6 @@ definitions:
       message:
         type: "string"
       data:
-        type: "object"
         $ref: "#/definitions/User"
   FindUserNameResponse:
     type: "object"
@@ -197,5 +228,22 @@ definitions:
       message:
         type: "string"
       data:
-        type: "object"
         $ref: "#/definitions/FindUserName"
+  UserResponse:
+    type: "object"
+    properties:
+      code: 
+        type: "integer"
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/User"
+  NoDataResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message:
+        type: "string"
+      data:
+        type: "object"

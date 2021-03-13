@@ -71,12 +71,94 @@ paths:
     get:
       tags:
       - "user"
-      summary: "查找用户"
-      description: "查找用户"
-      operationId: "getUserByName"
+      summary: "查找所有或某些类型的用户"
+      description: "查找所有或某些类型的用户"
+      operationId: "getUser"
       produces:
-      - "application/xml"
       - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "role"
+        in: "query"
+        description: "根据用户角色不同来筛选用户"
+        required: false
+        type: "integer"
+      responses:
+        "200":
+          description: "查找成功"
+          schema:
+            $ref: "#/definitions/UserResponse"
+        "400":
+          description: "传参不合法"
+          schema:
+            $ref: "#/definitions/ErrorResponseOne"
+        "404":
+          description: "没有找到该用户"
+          schema:
+            $ref: "#/definitions/ErrorResponseThree"
+    delete:
+      tags:
+      - "user"
+      summary: "注销用户"
+      description: "注销用户"
+      operationId: "deleteUser"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "userId"
+        in: "query"
+        description: "要注销的用户id"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "注销成功"
+          schema:
+            $ref: "#/definitions/SuccessResponse"
+        "400":
+          description: "注销失败"
+          schema:
+            $ref: "#/definitions/FailureResponse"
+  /user/{userId}:
+    get:
+      tags:
+      - "user"
+      summary: "通过id找到用户"
+      description: "返回一个用户"
+      operationId: "getUserById"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "使用id查找某用户"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "查找成功"
+          schema:
+            $ref: "#/definitions/UserResponse"
+        "400":
+          description: "提供的参数不合法"
+          schema:
+            $ref: "#/definitions/ErrorResponseOne"
+        "404":
+          description: "未找到用户"
+          schema:
+            $ref: "#/definitions/ErrorResponseThree"
+  /login: 
+    get:
+      tags:
+      - "login"
+      summary: "登录"
+      description: "登录"
+      operationId: "login"
+      produces:
+      - "application/json"
+      - "application/xml"
       parameters:
       - name: "userName"
         in: "query"
@@ -90,57 +172,21 @@ paths:
         type: "string"
       responses:
         "200":
-          description: "查找成功"
+          description: "登录成功"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/LoginResponse"
+            $ref: "#/definitions/LoginResponse"
         "400":
           description: "传参不合法"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/ErrorResponseOne"
+            $ref: "#/definitions/ErrorResponseOne"
         "401":
           description: "密码不正确"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/ErrorResponseTwo"
+            $ref: "#/definitions/ErrorResponseTwo"
         "404":
           description: "没有找到该用户"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/ErrorResponseThree"
-    delete:
-      tags:
-      - "user"
-      summary: "注销用户"
-      description: "注销用户"
-      operationId: "deleteUser"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "userId"
-        in: "query"
-        description: "要注销的用户id"
-        required: true
-        type: "integer"
-      responses:
-        "204":
-          description: "注销成功"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/NoDataResponse"
-        "400":
-          description: "注销失败"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/NoDataResponse"
+            $ref: "#/definitions/ErrorResponseThree"
 
 definitions:
   User:
@@ -212,6 +258,8 @@ definitions:
     properties:
       roleId:
         type: "integer"
+      userId:
+        type: "integer"
   LoginResponse:
     type: "object"
     properties:
@@ -220,7 +268,9 @@ definitions:
       message:
         type: "string"
       data:
-        $ref: "#/definitions/User"
+        type: "array"
+        items:
+          $ref: "#/definitions/Role"
   UserResponse:
     type: "object"
     properties:
@@ -229,7 +279,9 @@ definitions:
       message:
         type: "string"
       data:
-        $ref: "#/definitions/User"
+        type: "array"
+        items:
+          $ref: "#/definitions/User"
   NoDataResponse:
     type: "object"
     properties:
@@ -273,6 +325,22 @@ definitions:
       message: 
         type: "string"
         $ref: "#/components/responses/NotFound"
+  SuccessResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message:
+        type: "string"
+        $ref: "#/components/responses/Success"
+  FailureResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message: 
+        type: "string"
+        $ref: "#/components/responses/Failure"
 components:
   responses:
     InvalidParameters:
@@ -283,3 +351,5 @@ components:
       description: "not found"
     Success:
       description: "operate successfully"
+    Failure:
+      description: "operate failure"

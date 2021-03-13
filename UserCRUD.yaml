@@ -18,7 +18,7 @@ paths:
       tags:
       - "user"
       summary: "创建用户"
-      description: "用户注册"
+      description: "创建用户"
       operationId: "createUser"
       produces:
       - "application/xml"
@@ -187,35 +187,65 @@ paths:
           description: "没有找到该用户"
           schema:
             $ref: "#/definitions/ErrorResponseThree"
+  /register:
+    post:
+      tags:
+      - "register"
+      summary: "用户注册"
+      description: "用户注册"
+      operationId: "userRegister"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+       -  in: "body"
+          name: "user"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/UserResponse"
+        "400":
+          description: "用户名已存在"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/NoDataResponse"
 
 definitions:
   User:
     type: "object"
     properties:
-      userId:
+      id:
         type: "integer"
         format: "int64"
       userName:
         type: "string"
-      email:
-        type: "string"
       password:
         type: "string"
-      position:
+      email:
         type: "string"
-      college:
+      phone:
         type: "string"
-      group:
+      studentNo:
         type: "string"
-      loginTime:
+      isDisable:
+        type: "boolean"
+      createAt:
         type: "string"
         format: "date-time"
-      credit:
+      roleId:
         type: "integer"
         format: "int32"
-      role:
-        type: "integer"
-        $ref: "#/definitions/Role"
+      avatar:
+        type: "string"
+      sessionKey:
+        type: "string"
   Submit:
     type: "object"
     properties:

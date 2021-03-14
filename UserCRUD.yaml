@@ -78,7 +78,7 @@ paths:
       - "application/json"
       - "application/xml"
       parameters:
-      - name: "role"
+      - name: "roleId"
         in: "query"
         description: "根据用户角色不同来筛选用户"
         required: false

@@ -24,7 +24,7 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-       -  in: "body"
+        - in: "body"
           name: "user"
           schema:
             $ref: "#/definitions/User"

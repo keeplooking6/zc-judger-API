@@ -286,12 +286,10 @@ definitions:
   Role:
     type: "object"
     properties:
-      roleId:
+      id:
         type: "integer"
-      userId:
+      name:
         type: "integer"
-      token:
-        type: "string"
   LoginResponse:
     type: "object"
     properties:
@@ -300,9 +298,8 @@ definitions:
       message:
         type: "string"
       data:
-        type: "array"
-        items:
-          $ref: "#/definitions/Role"
+        type: "object"
+        $ref: "#/definitions/Role"
   UserResponse:
     type: "object"
     properties:

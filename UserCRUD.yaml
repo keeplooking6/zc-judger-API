@@ -216,7 +216,6 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/NoDataResponse"
-
 definitions:
   User:
     type: "object"
@@ -239,9 +238,9 @@ definitions:
       createAt:
         type: "string"
         format: "date-time"
-      roleId:
+      role:
         type: "integer"
-        format: "int32"
+        $ref: "#/definitions/Role"
       avatar:
         type: "string"
       sessionKey:
@@ -290,6 +289,14 @@ definitions:
         type: "integer"
       name:
         type: "integer"
+  LoginVO:
+    type: "object"
+    properties:
+      User:
+        type: "object"
+        $ref: "#/definitions/User"
+      token:
+        type: "string"
   LoginResponse:
     type: "object"
     properties:
@@ -299,7 +306,7 @@ definitions:
         type: "string"
       data:
         type: "object"
-        $ref: "#/definitions/Role"
+        $ref: "#/definitions/LoginVO"
   UserResponse:
     type: "object"
     properties:

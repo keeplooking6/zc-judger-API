@@ -150,7 +150,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponseThree"
   /login: 
-    get:
+    post:
       tags:
       - "login"
       summary: "登录"
@@ -290,6 +290,8 @@ definitions:
         type: "integer"
       userId:
         type: "integer"
+      token:
+        type: "string"
   LoginResponse:
     type: "object"
     properties:

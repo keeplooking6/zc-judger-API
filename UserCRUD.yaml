@@ -32,15 +32,11 @@ paths:
         "200":
           description: "OK"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/UserResponse"
+            $ref: "#/definitions/UserResponse"
         "400":
           description: "用户名已存在"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/NoDataResponse"
+            $ref: "#/definitions/NoDataResponse"
     put:
       tags:
       - "user"
@@ -51,23 +47,64 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - in: "body"
-        name: "user"
-        schema:
-          $ref: '#/definitions/User'
+      - in: "query"
+        name: "id"
+        required: true
+        type: "integer"
+        description: "要更新的用户id"
+      - in: "query"
+        name: "userName"
+        required: false
+        type: "string"
+      - in: "query"
+        name: "password"
+        required: false
+        type: "string"
+        description: "要更新的用户密码"
+      - in: "query"
+        name: "email"
+        required: false
+        type: "string"
+        description: "要更新的用户邮箱"
+      - in: "query"
+        name: "phone"
+        required: false
+        type: "string"
+        description: "要更新的用户密码"
+      - in: "query"
+        name: "studentNo"
+        required: false
+        type: "string"
+        description: "要更新的用户学号"
+      - in: "query"
+        name: "isDisable"
+        required: false
+        type: "string"
+        description: "要更新的用户状态"
+      - in: "query"
+        name: "avatar"
+        required: false
+        type: "string"
+        description: "要更新的用户头像"
+      - in: "query"
+        name: "sessionKey"
+        required: false
+        type: "string"
+        description: "要更新的用户sessionKey"
+      - in: "query"
+        name: "role"
+        required: false
+        type: "string"
+        description: "要更新的用户角色"
       responses:
         "200":
           description: "OK"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/UserResponse"
+            $ref: "#/definitions/UserResponse"
         "400":
           description: "用户请求信息有误"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/NoDataResponse"
+            $ref: "#/definitions/NoDataResponse"
     get:
       tags:
       - "user"
@@ -239,9 +276,8 @@ definitions:
       createAt:
         type: "string"
         format: "date-time"
-      roleId:
-        type: "integer"
-        format: "int32"
+      role:
+        $ref: "#/definitions/Role"
       avatar:
         type: "string"
       sessionKey:
